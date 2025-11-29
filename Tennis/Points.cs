@@ -12,19 +12,18 @@ public enum Points
 
 public static class PointsExtension
 {
-    public static Points Increment(this Points points, Points otherPoints)
+    public static Points Increment(this Points points)
     {
-        if (points == Points.Forty && otherPoints == Points.Forty)
-            return Points.Advantage;
-
-        if (points == Points.Forty && otherPoints < Points.Forty)
-            return Points.Win;
-
         return points + 1;
     }
 
     public static bool HasWon(this Points points)
     {
         return points == Points.Win;
+    }
+
+    public static bool IsLessThan40(this Points points)
+    {
+        return points < Points.Forty;
     }
 }

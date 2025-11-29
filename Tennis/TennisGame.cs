@@ -1,5 +1,11 @@
 namespace Tennis;
 
+public enum Player
+{
+    One,
+    Two
+}
+
 public class TennisGame
 {
     private Points _player1Points;
@@ -16,19 +22,35 @@ public class TennisGame
         return _player1Points == Points.Forty && _player2Points == Points.Forty;
     }
 
-    public void IncrementPoints(int player)
+    public void IncrementPoints(Player scoringPlayer)
     {
-        if (player == 1)
-            _player1Points = _player1Points.Increment(_player2Points);
+        if (scoringPlayer == Player.One)
+            _player1Points = IncrementPoints(_player1Points, _player2Points);
         else
-            _player2Points = _player2Points.Increment(_player1Points);
+            _player2Points = IncrementPoints(_player2Points, _player1Points);
     }
 
-    public bool HasAdvantage(int player)
+    private static Points IncrementPoints(Points scoringPoints, Points opponentPoints)
     {
-        if (player == 1)
+        if (scoringPoints == Points.Forty && opponentPoints.IsLessThan40())
+            return Points.Win;
+
+        return scoringPoints.Increment();
+    }
+
+    public bool HasAdvantage(Player player)
+    {
+        if (player == Player.One)
             return _player1Points == Points.Advantage;
 
         return _player2Points == Points.Advantage;
+    }
+
+    public bool HasWon(Player player)
+    {
+        if (player == Player.One)
+            return _player1Points.HasWon();
+
+        return _player2Points.HasWon();
     }
 }

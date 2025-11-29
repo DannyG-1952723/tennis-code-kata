@@ -9,7 +9,7 @@ public sealed class TennisTests
     [DataRow(Points.Thirty, Points.Forty)]
     public void IncrementPoints_BasePoints(Points init, Points expected)
     {
-        Points points = init.Increment(Points.Love);
+        Points points = init.Increment();
 
         Assert.AreEqual(expected, points);
     }
@@ -21,9 +21,10 @@ public sealed class TennisTests
     [DataRow(Points.Forty, true)]
     public void HasWon_AfterPoint(Points init, bool shouldWin)
     {
-        Points points = init.Increment(Points.Love);
+        TennisGame tennis = new TennisGame(init, Points.Love);
+        tennis.IncrementPoints(Player.One);
 
-        Assert.AreEqual(shouldWin, points.HasWon());
+        Assert.AreEqual(shouldWin, tennis.HasWon(Player.One));
     }
 
     [TestMethod]
@@ -40,12 +41,12 @@ public sealed class TennisTests
     }
 
     [TestMethod]
-    [DataRow(Points.Love, Points.Fifteen, 1, false)]
-    [DataRow(Points.Fifteen, Points.Fifteen, 2, false)]
-    [DataRow(Points.Forty, Points.Love, 1, false)]
-    [DataRow(Points.Forty, Points.Thirty, 1, false)]
-    [DataRow(Points.Forty, Points.Forty, 2, true)]
-    public void HasAdvantage_AfterPoint(Points player1Points, Points player2Points, int scoringPlayer, bool hasAdvantage)
+    [DataRow(Points.Love, Points.Fifteen, Player.One, false)]
+    [DataRow(Points.Fifteen, Points.Fifteen, Player.Two, false)]
+    [DataRow(Points.Forty, Points.Love, Player.One, false)]
+    [DataRow(Points.Forty, Points.Thirty, Player.One, false)]
+    [DataRow(Points.Forty, Points.Forty, Player.Two, true)]
+    public void HasAdvantage_AfterPoint(Points player1Points, Points player2Points, Player scoringPlayer, bool hasAdvantage)
     {
         TennisGame tennis = new TennisGame(player1Points, player2Points);
         tennis.IncrementPoints(scoringPlayer);
