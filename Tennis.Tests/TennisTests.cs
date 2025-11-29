@@ -9,7 +9,7 @@ public sealed class TennisTests
     [DataRow(Points.Thirty, Points.Forty)]
     public void IncrementPoints_BasePoints(Points init, Points expected)
     {
-        Points points = init.Increment();
+        Points points = init.Increment(Points.Love);
 
         Assert.AreEqual(expected, points);
     }
@@ -21,7 +21,7 @@ public sealed class TennisTests
     [DataRow(Points.Forty, true)]
     public void HasWon_AfterPoint(Points init, bool shouldWin)
     {
-        Points points = init.Increment();
+        Points points = init.Increment(Points.Love);
 
         Assert.AreEqual(shouldWin, points.HasWon());
     }
