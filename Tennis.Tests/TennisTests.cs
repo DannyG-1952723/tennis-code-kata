@@ -10,7 +10,7 @@ public sealed class TennisTests
     public void IncrementPoints_BasePoints(Points init, Points expected)
     {
         Points points = init;
-        points += 1;
+        points = points.Increment();
 
         Assert.AreEqual(expected, points);
     }

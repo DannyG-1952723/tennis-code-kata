@@ -7,3 +7,11 @@ public enum Points
     Thirty = 2,
     Forty = 3
 }
+
+public static class PointsExtension
+{
+    public static Points Increment(this Points points)
+    {
+        return points += 1;
+    }
+}
