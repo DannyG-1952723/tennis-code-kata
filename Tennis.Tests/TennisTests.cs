@@ -25,4 +25,17 @@ public sealed class TennisTests
 
         Assert.AreEqual(shouldWin, points.HasWon());
     }
+
+    [TestMethod]
+    [DataRow(Points.Love, Points.Fifteen, false)]
+    [DataRow(Points.Fifteen, Points.Fifteen, false)]
+    [DataRow(Points.Thirty, Points.Love, false)]
+    [DataRow(Points.Forty, Points.Thirty, false)]
+    [DataRow(Points.Forty, Points.Forty, true)]
+    public void IsDeuce(Points player1Points, Points player2Points, bool isDeuce)
+    {
+        TennisGame tennis = new TennisGame(player1Points, player2Points);
+
+        Assert.AreEqual(isDeuce, tennis.IsDeuce());
+    }
 }
