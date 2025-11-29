@@ -38,4 +38,18 @@ public sealed class TennisTests
 
         Assert.AreEqual(isDeuce, tennis.IsDeuce());
     }
+
+    [TestMethod]
+    [DataRow(Points.Love, Points.Fifteen, 1, false)]
+    [DataRow(Points.Fifteen, Points.Fifteen, 2, false)]
+    [DataRow(Points.Forty, Points.Love, 1, false)]
+    [DataRow(Points.Forty, Points.Thirty, 1, false)]
+    [DataRow(Points.Forty, Points.Forty, 2, true)]
+    public void HasAdvantage_AfterPoint(Points player1Points, Points player2Points, int scoringPlayer, bool hasAdvantage)
+    {
+        TennisGame tennis = new TennisGame(player1Points, player2Points);
+        tennis.IncrementPoints(scoringPlayer);
+
+        Assert.AreEqual(hasAdvantage, tennis.HasAdvantage(scoringPlayer));
+    }
 }
