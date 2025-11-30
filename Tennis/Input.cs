@@ -27,3 +27,13 @@ public class TestInput : IInput
         return _inputs.Count > 0 ? _inputs.Dequeue() : null;
     }
 }
+
+public class RandomInput : IInput
+{
+    private readonly Random _random = new Random();
+
+    public string? ReadLine()
+    {
+        return _random.Next(1, 3).ToString();
+    }
+}
