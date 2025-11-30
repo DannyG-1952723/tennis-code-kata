@@ -34,6 +34,10 @@ public class RandomInput : IInput
 
     public string? ReadLine()
     {
-        return _random.Next(1, 3).ToString();
+        int player = _random.Next(1, 3);
+
+        Console.WriteLine($"{player} (random)");
+
+        return player.ToString();
     }
 }
