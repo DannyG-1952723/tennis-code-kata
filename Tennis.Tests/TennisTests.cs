@@ -53,4 +53,15 @@ public sealed class TennisTests
 
         Assert.AreEqual(hasAdvantage, tennis.HasAdvantage(scoringPlayer));
     }
+
+    [TestMethod]
+    [DataRow(Points.Advantage, Points.Forty, Player.One)]
+    [DataRow(Points.Forty, Points.Advantage, Player.Two)]
+    public void HasWon_AfterAdvantage(Points player1Points, Points player2Points, Player scoringPlayer)
+    {
+        TennisGame tennis = new TennisGame(player1Points, player2Points);
+        tennis.IncrementPoints(scoringPlayer);
+
+        Assert.IsTrue(tennis.HasWon(scoringPlayer));
+    }
 }
