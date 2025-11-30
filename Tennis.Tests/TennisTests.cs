@@ -64,4 +64,15 @@ public sealed class TennisTests
 
         Assert.IsTrue(tennis.HasWon(scoringPlayer));
     }
+
+    [TestMethod]
+    [DataRow(Points.Advantage, Points.Forty, Player.Two)]
+    [DataRow(Points.Forty, Points.Advantage, Player.One)]
+    public void Deuce_AfterAdvantage(Points player1Points, Points player2Points, Player scoringPlayer)
+    {
+        TennisGame tennis = new TennisGame(player1Points, player2Points);
+        tennis.IncrementPoints(scoringPlayer);
+
+        Assert.IsTrue(tennis.IsDeuce());
+    }
 }
