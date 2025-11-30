@@ -25,17 +25,23 @@ public class TennisGame
     public void IncrementPoints(Player scoringPlayer)
     {
         if (scoringPlayer == Player.One)
-            _player1Points = IncrementPoints(_player1Points, _player2Points);
+        {
+            if (_player1Points == Points.Forty && _player2Points.IsLessThan40())
+                _player1Points = Points.Win;
+            else if (HasAdvantage(Player.Two) && _player1Points == Points.Forty)
+                _player2Points = Points.Forty;
+            else
+                _player1Points = _player1Points.Increment();
+        }
         else
-            _player2Points = IncrementPoints(_player2Points, _player1Points);
-    }
-
-    private static Points IncrementPoints(Points scoringPoints, Points opponentPoints)
-    {
-        if (scoringPoints == Points.Forty && opponentPoints.IsLessThan40())
-            return Points.Win;
-
-        return scoringPoints.Increment();
+        {
+            if (_player2Points == Points.Forty && _player1Points.IsLessThan40())
+                _player2Points = Points.Win;
+            else if (HasAdvantage(Player.One) && _player2Points == Points.Forty)
+                _player1Points = Points.Forty;
+            else
+                _player2Points = _player2Points.Increment();
+        }
     }
 
     public bool HasAdvantage(Player player)
