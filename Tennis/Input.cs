@@ -15,7 +15,7 @@ public class ConsoleInput : IInput
 
 public class TestInput : IInput
 {
-    private Queue<string> _inputs;
+    private readonly Queue<string> _inputs;
 
     public TestInput(string[] inputs)
     {

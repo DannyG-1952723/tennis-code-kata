@@ -10,17 +10,14 @@ public class TennisGame
 {
     private Points _player1Points;
     private Points _player2Points;
-    private IInput _input;
+    private readonly IInput _input;
 
     public TennisGame(Points player1Points = Points.Love, Points player2Points = Points.Love, IInput? input = null)
     {
         _player1Points = player1Points;
         _player2Points = player2Points;
 
-        if (input == null)
-            _input = new ConsoleInput();
-        else
-            _input = input;
+        _input = input ?? new ConsoleInput();
     }
 
     public bool IsDeuce()
@@ -32,8 +29,10 @@ public class TennisGame
     {
         if (scoringPlayer == Player.One)
         {
+            // Skip advantage when the opponent has less than 40
             if (_player1Points == Points.Forty && _player2Points.IsLessThan40())
                 _player1Points = Points.Win;
+            // Set the points back to deuce when the opponent had advantage
             else if (HasAdvantage(Player.Two) && _player1Points == Points.Forty)
                 _player2Points = Points.Forty;
             else
@@ -41,8 +40,10 @@ public class TennisGame
         }
         else
         {
+            // Skip advantage when the opponent has less than 40
             if (_player2Points == Points.Forty && _player1Points.IsLessThan40())
                 _player2Points = Points.Win;
+            // Set the points back to deuce when the opponent had advantage
             else if (HasAdvantage(Player.One) && _player2Points == Points.Forty)
                 _player1Points = Points.Forty;
             else
@@ -77,11 +78,14 @@ public class TennisGame
                 return;
 
             IncrementPoints(scoringPlayer.Value);
+            DisplayScore(scoringPlayer.Value);
         } while (!HasWon(Player.One) && !HasWon(Player.Two));
     }
 
     private Player? GetPlayerFromInput()
     {
+        Console.WriteLine("Choose the player that gets a point by entering '1' or '2'");
+
         string? input;
 
         while ((input = _input.ReadLine()) != null)
@@ -90,9 +94,24 @@ public class TennisGame
 
             if (playerString == "1" || playerString == "2")
                 return playerString == "1" ? Player.One : Player.Two;
+
+            Console.WriteLine("\nInvalid input. Enter '1' or '2' (without quotes)");
         }
 
         // Only happens when there will be no more input
         return null;
+    }
+
+    private void DisplayScore(Player scoringPlayer)
+    {
+        string player = scoringPlayer == Player.One ? "Player 1" : "Player 2";
+        string deuce = IsDeuce() ? " (Deuce)" : "";
+
+        Console.WriteLine($"\nPoint to {player}");
+
+        if (HasWon(scoringPlayer))
+            Console.WriteLine($"{player} won!");
+        else
+            Console.WriteLine($"Score: {_player1Points.ToCustomString()} - {_player2Points.ToCustomString()}{deuce}\n");
     }
 }

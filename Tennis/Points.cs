@@ -26,4 +26,19 @@ public static class PointsExtension
     {
         return points < Points.Forty;
     }
+
+    // ToString() is a default method on enums, overwriting it still displayed the default ToString() output
+    public static string ToCustomString(this Points points)
+    {
+        return points switch
+        {
+            Points.Love => "Love",
+            Points.Fifteen => "15",
+            Points.Thirty => "30",
+            Points.Forty => "40",
+            Points.Advantage => "Adv.",
+            // Points.Win will never be displayed
+            _ => ""
+        };
+    }
 }
