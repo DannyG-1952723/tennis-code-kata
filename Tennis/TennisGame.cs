@@ -10,11 +10,17 @@ public class TennisGame
 {
     private Points _player1Points;
     private Points _player2Points;
+    private IInput _input;
 
-    public TennisGame(Points player1Points = Points.Love, Points player2Points = Points.Love)
+    public TennisGame(Points player1Points = Points.Love, Points player2Points = Points.Love, IInput? input = null)
     {
         _player1Points = player1Points;
         _player2Points = player2Points;
+
+        if (input == null)
+            _input = new ConsoleInput();
+        else
+            _input = input;
     }
 
     public bool IsDeuce()
@@ -58,5 +64,24 @@ public class TennisGame
             return _player1Points.HasWon();
 
         return _player2Points.HasWon();
+    }
+
+    public void Start()
+    {
+        do
+        {
+            Player scoringPlayer = GetPlayerFromInput();
+            IncrementPoints(scoringPlayer);
+        } while (!HasWon(Player.One) && !HasWon(Player.Two));
+    }
+
+    private Player GetPlayerFromInput()
+    {
+        string playerString = _input.ReadLine()!.Trim();
+
+        if (playerString == "1")
+            return Player.One;
+
+        return Player.Two;
     }
 }
