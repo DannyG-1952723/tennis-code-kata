@@ -105,4 +105,16 @@ public sealed class TennisTests
         // Game doesn't end, so nobody wins
         Assert.IsFalse(tennis.HasWon(Player.One) || tennis.HasWon(Player.Two));
     }
+
+    [TestMethod]
+    public void RandomInput_ReturnsValidPlayers()
+    {
+        RandomInput input = new RandomInput();
+
+        for (int i = 0; i < 100; i++)
+        {
+            string? player = input.ReadLine();
+            Assert.IsTrue(player == "1" || player == "2");
+        }
+    }
 }
