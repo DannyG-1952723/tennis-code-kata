@@ -75,4 +75,18 @@ public sealed class TennisTests
 
         Assert.IsTrue(tennis.IsDeuce());
     }
+
+    [TestMethod]
+    [DataRow(Player.One, "1", "1", "1", "1")]
+    [DataRow(Player.One, "1", "1", "1", "2", "2", "1")]
+    [DataRow(Player.Two, "1", "1", "1", "2", "2", "2", "2", "2")]
+    [DataRow(Player.Two, "1", "2", "1", "2", "1", "2", "1", "2", "1", "2", "1", "2", "2", "2")]
+    public void Start_GameEnds(Player winner, params string[] points)
+    {
+        TestInput testInput = new TestInput(points);
+        TennisGame tennis = new TennisGame(input: testInput);
+        tennis.Start();
+
+        Assert.IsTrue(tennis.HasWon(winner));
+    }
 }
