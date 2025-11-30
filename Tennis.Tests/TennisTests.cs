@@ -77,8 +77,8 @@ public sealed class TennisTests
     }
 
     [TestMethod]
-    [DataRow(Player.One, "1", "1", "1", "1")]
-    [DataRow(Player.One, "1", "1", "1", "2", "2", "1")]
+    [DataRow(Player.One, "1", "1", "Bad Input", "1", "1")]
+    [DataRow(Player.One, "1", "1", "1", "2", "2", "3", "1")]
     [DataRow(Player.Two, "1", "1", "1", "2", "2", "2", "2", "2")]
     [DataRow(Player.Two, "1", "2", "1", "2", "1", "2", "1", "2", "1", "2", "1", "2", "2", "2")]
     public void Start_GameEnds(Player winner, params string[] points)
@@ -88,5 +88,21 @@ public sealed class TennisTests
         tennis.Start();
 
         Assert.IsTrue(tennis.HasWon(winner));
+    }
+
+    [TestMethod]
+    [DataRow()]
+    [DataRow("Bad Input")]
+    [DataRow("1")]
+    [DataRow("1", "2")]
+    [DataRow("1", "1", "1")]
+    public void Start_NotEnoughInput(params string[] points)
+    {
+        TestInput testInput = new TestInput(points);
+        TennisGame tennis = new TennisGame(input: testInput);
+        tennis.Start();
+
+        // Game doesn't end, so nobody wins
+        Assert.IsFalse(tennis.HasWon(Player.One) || tennis.HasWon(Player.Two));
     }
 }
