@@ -70,18 +70,29 @@ public class TennisGame
     {
         do
         {
-            Player scoringPlayer = GetPlayerFromInput();
-            IncrementPoints(scoringPlayer);
+            Player? scoringPlayer = GetPlayerFromInput();
+
+            // No more input to play the game, so end it
+            if (scoringPlayer == null)
+                return;
+
+            IncrementPoints(scoringPlayer.Value);
         } while (!HasWon(Player.One) && !HasWon(Player.Two));
     }
 
-    private Player GetPlayerFromInput()
+    private Player? GetPlayerFromInput()
     {
-        string playerString = _input.ReadLine()!.Trim();
+        string? input;
 
-        if (playerString == "1")
-            return Player.One;
+        while ((input = _input.ReadLine()) != null)
+        {
+            string playerString = input.Trim();
 
-        return Player.Two;
+            if (playerString == "1" || playerString == "2")
+                return playerString == "1" ? Player.One : Player.Two;
+        }
+
+        // Only happens when there will be no more input
+        return null;
     }
 }
